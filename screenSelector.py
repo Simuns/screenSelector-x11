@@ -35,11 +35,10 @@ def find_layout(current_monitors):
             layout = ast.literal_eval(layout_raw)
             layout = [n.strip() for n in layout]
             layout.sort()
-            print("sl:",layout)
-            print("sl",len(layout))
             if layout == current_monitors:
                 layout_found += 1
                 path = str(file)
+                print("Layout is already used.")
             else: 
                 pass
 
@@ -70,7 +69,8 @@ def activate_layout(path_layout):
     full_fileName = path_layout.split("/")[-1]
     split_fileName = full_fileName.split(".")[0]
     path = path_layout.rsplit('/', 1)[0]+"/"
-    execute(f"bash {path}{split_fileName}.sh")
+    print("Activating layout", split_fileName)
+    print(execute(f"bash {path}{split_fileName}.sh"))
 
 
 def manual():
@@ -103,11 +103,17 @@ def automated():
         sys.exit()
 
 def main():
-    if sys.argv[1] == "--manual" or "-m" or "--create" or "-c":
-        manual()
-    elif sys.argv[1] == "--automated" or "-a":
+    if len(sys.argv) < 2:
         automated()
     else:
-        print("screenSelector options are following")
-        print("--manual -m, --automatic -a, --create -c")
-        sys.exit()
+        if sys.argv[1] == "--manual" or "-m" or "--create" or "-c":
+            print("fuck")
+            manual()
+        elif sys.argv[1] == "--automated" or "-a":
+            automated()
+        else:
+            print("screenSelector options are following")
+            print("--manual -m, --automated -a, --create -c")
+            sys.exit()
+
+main()
