@@ -50,7 +50,8 @@ def find_layout(current_monitors):
     elif layout_found == 1:
         layout_bool = True
     elif layout_found > 1:
-        print("too many matching layout found")
+        print("Too many matching layout found, picking first one")
+        path = path[0]
         layout_bool = False
     else:
         layout_bool = False
@@ -64,7 +65,6 @@ def create_layout(current_monitors):
     with open(directory+layout_name+".json", "w") as outfile:
         outfile.write(str(current_monitors))
 
-    
 
 def activate_layout(path_layout):
     full_fileName = path_layout.split("/")[-1]
@@ -73,21 +73,41 @@ def activate_layout(path_layout):
     execute(f"bash {path}{split_fileName}.sh")
 
 
-def main():
+def manual():
     current_monitors = list_monitors()
     check_layoutExsists = find_layout(current_monitors)
     if check_layoutExsists[0] == True:
-        print("Layout already exsists, activating layout", check_layoutExsists[1])
+        print("Layout already exsists:", check_layoutExsists[1])
         yes_no = input("do you want to activate layout? (y/n)")
         if yes_no == "y":
             activate_layout(check_layoutExsists[1])
         else:
             sys.exit()
     else:
+        print("There is no layout present with your current monitors")
         yes_no = input("do you want to Create layout? (y/n)")
         print(current_monitors)
         if yes_no == "y":
             create_layout(current_monitors)
         else:
             sys.exit()
-main()
+
+
+def automated():
+    current_monitors = list_monitors()
+    check_layoutExsists = find_layout(current_monitors)
+    if check_layoutExsists[0] == True:
+        activate_layout(check_layoutExsists[1])
+    else:
+        # Future notify user that the layout does not excists
+        sys.exit()
+
+def main():
+    if sys.argv[1] == "--manual" or "-m" or "--create" or "-c":
+        manual()
+    elif sys.argv[1] == "--automated" or "-a":
+        automated()
+    else:
+        print("screenSelector options are following")
+        print("--manual -m, --automatic -a, --create -c")
+        sys.exit()
