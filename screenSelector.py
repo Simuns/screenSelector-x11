@@ -70,7 +70,7 @@ def activate_layout(path_layout):
     split_fileName = full_fileName.split(".")[0]
     path = path_layout.rsplit('/', 1)[0]+"/"
     print("Activating layout", split_fileName)
-    print(execute(f"bash {path}{split_fileName}.sh"))
+    execute(f"bash {path}{split_fileName}.sh")
 
 
 def manual():
