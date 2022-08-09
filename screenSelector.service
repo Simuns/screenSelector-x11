@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/home/<>/git/screenSelector-x11/screenSelector.sh
+Restart=always
+WorkingDirectory=/home/<>
+User=<>
+Group=<>
