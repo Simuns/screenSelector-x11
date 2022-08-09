@@ -21,9 +21,10 @@ echo "" > ~/.screenlayout/.screenSetup_checksum.md5
         else
                 echo "no match, start application"
                 after_md5=$before_md5
+                export DISPLAY=:0
                 python3 ~/git/screenSelector-x11/screenSelector.py > ~/git/screenSelector-x11/screenSelector.log
         fi
-        sleep 3
+        sleep 8
 
 
 done
