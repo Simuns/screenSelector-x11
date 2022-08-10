@@ -7,6 +7,15 @@ import sys
 import json
 import ast
 
+##Testing
+def get_fileTimestamp(file_path):
+    import os.path, time
+    lastModified_stamp = time.ctime(os.path.getmtime(file_path))
+    creation_stamp = time.ctime(os.path.getctime("screenSelector.py"))
+    return lastModified_stamp, creation_stamp 
+
+
+
 
 def execute(cmd):
     exec = subprocess.Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True)
