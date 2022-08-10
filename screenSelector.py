@@ -6,6 +6,8 @@ from pathlib import Path
 import sys
 import json
 import ast
+
+
 def execute(cmd):
     exec = subprocess.Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True)
     output = exec.communicate()[0]
@@ -23,6 +25,7 @@ def list_monitors():
     del monitors[0]
     monitors.sort()
     return monitors
+
 
 def find_layout(current_monitors):
     directory = os.path.expanduser('~/.screenlayout/')
@@ -54,6 +57,7 @@ def find_layout(current_monitors):
         layout_bool = False
     else:
         layout_bool = False
+
     return layout_bool, path
 
 
@@ -102,6 +106,7 @@ def automated():
         # Future notify user that the layout does not excists
         sys.exit()
 
+
 def main():
     if len(sys.argv) < 2:
         automated()
@@ -115,5 +120,6 @@ def main():
             print("screenSelector options are following")
             print("--manual -m, --automated -a, --create -c")
             sys.exit()
+
 
 main()
