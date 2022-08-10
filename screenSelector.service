@@ -1,6 +1,9 @@
 [Service]
-ExecStart=/home/<>/git/screenSelector-x11/screenSelector.sh
+ExecStart=~/git/screenSelector-x11/screenSelector.sh
 Restart=always
-WorkingDirectory=/home/<>
-User=<>
-Group=<>
+WorkingDirectory=~/
+User=$USER
+Group=$USER
+
+[install]
+WantedBy=runlevel5.target
