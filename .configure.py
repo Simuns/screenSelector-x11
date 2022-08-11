@@ -1,30 +1,74 @@
 #!/usr/bin/env python3
-from screenSelector import execute
+import sys
+import platform
+import os
 
-def check_linuxFlvor():
+def execute(cmd):
+    exec = subprocess.Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True)
+    output = exec.communicate()[0]
+    exitcode = exec.returncode
+    if exitcode > 2:
+        print("Offending line:",cmd)
+    return output.decode("utf-8").strip(), exitcode
 
-def list_missingDependencies
+def get_privelege():
+    if os.geteuid() == 0:
+        pass
+    else:
+        print("Installation requires sudo\nExiting")
+        sys.exit()
+    return 
 
 
-def install_dependencies():
+def check_linuxFlavor():
+    info = platform.freedesktop_os_release()
+    distro = [info["ID"]]
+    if "ID_LIKE" in info:
+        # distro are space separated and ordered by precedence
+        distro.extend(info["ID_LIKE"].split())
+    return distro[0]
+
+
+def list_missingDependencies():
     dependencies = ['xrandr','arandr','hwinfo']
+    missing_Dependencies = []
     for dependency in dependencies:
         current_dependency = execute(f"which {dependency}")[1]
         if current_dependency == 0:
             pass
         else:
-            try:
-                execute(f"pacman -Syu {dependency} --noconfirm")
-            except:
-                pass
-    for dependency in dependencies:
-        current_dependency = execute(f"which {dependency}")[1]
-        if current_dependency == 0:
+            if len(missing_Dependencies) == 0:
+                print("Following Dependencies are missing:")
+            missing_Dependencies.append(dependency)
+            print(dependency)
+    return (missing_Dependencies)
+
+def install_dependencies(distro, missing_Dependencies):
+    print("Installing missing Dependencies")
+    if distro == "arch":
+        pkg_manager = "pacman -Syu --noconfirm"
+    elif distro == "ubuntu" or raspbian or linuxmint:
+        pkg_manager = "apt-get install -y"
+    elif distro == "centos" or "fedora" or "rhel" or "oracle":
+        pkg_manager = "yum install -y"
+    else:
+        print(f"Your distro {distro} is not supported. Please manually install the missing dependencies")
+        sys.exit()
+
+    for dependency in missing_Dependencies:
+        installation = execute(f"{pkg_manager} {dependency}")
+        if installation[1] == 0:
             pass
         else:
-            print(f"There were issues installing dependencies. \nTry to manually install package {current_dependency} and run installer again.")
-install_dependencies()
+            print(f"installing package {dependency} failed.\nTry manually installing it and run me again.")
+            sys.exit()
 
-#def setup_service():
 
-#def setup_executable():
+def main():
+    get_privelege()
+    missing_Dependencies = list_missingDependencies()
+    distro = check_linuxFlavor()
+    install_dependencies(distro, missing_Dependencies)
+    return
+
+main()
