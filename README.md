@@ -1,6 +1,7 @@
 # todo
 
 - [ ] Make sure systemvars work in service
+- [ ] Separate script into smaller chunks
 - [ ] create arandr execution wait loop verifying based on filecreation timestamp
 - [ ] Create guide to layout creation section
 - [ ] Atomated run. Create function that will turn on all connected screens when no preset is picket. Screens will be mirrored from main display
