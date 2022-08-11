@@ -125,30 +125,19 @@ def automated():
 
 
 def main():
-    if sys.argv[1] == "--manual" or sys.argv[1] == "-m":
+    if len(sys.argv) == 1:
+        print("Options...\n --manual -m, --automated -a, --create -c")
+        sys.exit()
+
+    elif sys.argv[1] == "--manual" or sys.argv[1] == "-m" or sys.argv[1] == "--create" or sys.argv[1] == "-c":
         manual()
 
     elif sys.argv[1] == "--automated" or sys.argv[1] == "-a":
         automated()
 
-    elif sys.argv[1] == "--create" or sys.argv[1] == "-c":
-        manual()
     else:
         print("Options...\n --manual -m, --automated -a, --create -c")
+        sys.exit()
     return
 
-#    if len(sys.argv) < 2:
-#        automated()
-#    elif sys.argv[1] == "--manual" or "-m" or "--create" or "-c":
-#        print("fuck")
-#        manual()
-#    elif sys.argv[1] == "--automated" or "-a":
-#        automated()
-#    else:
-#        print("screenSelector options are following")
-#        print("--manual -m, --automated -a, --create -c")
-#        sys.exit()
-
-
 main()
-#print(get_fileTimestamp("/tmp/hey"))
