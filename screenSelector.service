@@ -1,9 +1,9 @@
 [Service]
-ExecStart=~/git/screenSelector-x11/screenSelector.sh
+ExecStart=/home/simuns/git/screenSelector-x11/screenSelector.sh
 Restart=always
-WorkingDirectory=~/
-User=$USER
-Group=$USER
+WorkingDirectory=/home/simuns/
+User=simuns
+Group=simuns
 
 [install]
 WantedBy=runlevel5.target
