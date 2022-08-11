@@ -11,7 +11,7 @@ import ast
 def get_fileTimestamp(file_path):
     import os.path, time
     lastModified_stamp = time.ctime(os.path.getmtime(file_path))
-    creation_stamp = time.ctime(os.path.getctime("screenSelector.py"))
+    creation_stamp = time.ctime(os.path.getctime(file_path))
     return lastModified_stamp, creation_stamp 
 
 
@@ -71,12 +71,20 @@ def find_layout(current_monitors):
 
 
 def create_layout(current_monitors):
+    input("Create layout and save it.\n Press [Enter] when done")
+    pre_arandr = time.ctime()
     execute("arandr")
     directory = os.path.expanduser('~/.screenlayout/')
-    layout_name = execute(f"ls -t {directory}")[0].split("\n")[0].split(".")[0]
+    layout_file = execute(f"ls -t {directory}")[0].split("\n")[0]
+    layout_name =layout_file.split(".")[0]
+
+    if pre_arandr < post_arandr:
+        pass
+    else:
+        sys.exit()
     with open(directory+layout_name+".json", "w") as outfile:
         outfile.write(str(current_monitors))
-
+    print("Layout created")
 
 def activate_layout(path_layout):
     full_fileName = path_layout.split("/")[-1]
@@ -117,18 +125,30 @@ def automated():
 
 
 def main():
-    if len(sys.argv) < 2:
+    if sys.argv[1] == "--manual" or sys.argv[1] == "-m":
+        manual()
+
+    elif sys.argv[1] == "--automated" or sys.argv[1] == "-a":
         automated()
+
+    elif sys.argv[1] == "--create" or sys.argv[1] == "-c":
+        manual()
     else:
-        if sys.argv[1] == "--manual" or "-m" or "--create" or "-c":
-            print("fuck")
-            manual()
-        elif sys.argv[1] == "--automated" or "-a":
-            automated()
-        else:
-            print("screenSelector options are following")
-            print("--manual -m, --automated -a, --create -c")
-            sys.exit()
+        print("Options...\n --manual -m, --automated -a, --create -c")
+    return
+
+#    if len(sys.argv) < 2:
+#        automated()
+#    elif sys.argv[1] == "--manual" or "-m" or "--create" or "-c":
+#        print("fuck")
+#        manual()
+#    elif sys.argv[1] == "--automated" or "-a":
+#        automated()
+#    else:
+#        print("screenSelector options are following")
+#        print("--manual -m, --automated -a, --create -c")
+#        sys.exit()
 
 
 main()
+#print(get_fileTimestamp("/tmp/hey"))
