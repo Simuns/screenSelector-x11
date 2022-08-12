@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import json
 import ast
+import time
 
 ##Testing
 def get_fileTimestamp(file_path):
@@ -57,6 +58,7 @@ def find_layout(current_monitors):
 
     if layout_found == 0:
         print("no matching layout found")
+        path = ""
         layout_bool = False
     elif layout_found == 1:
         layout_bool = True
@@ -71,15 +73,17 @@ def find_layout(current_monitors):
 
 
 def create_layout(current_monitors):
-    input("Create layout and save it.\n Press [Enter] when done")
     pre_arandr = time.ctime()
-    execute("arandr")
+    execute("arandr &")
+    input("Create layout and save it.\n Press [Enter] when done")
     directory = os.path.expanduser('~/.screenlayout/')
     layout_file = execute(f"ls -t {directory}")[0].split("\n")[0]
     layout_name =layout_file.split(".")[0]
-
+    post_arandr = time.ctime(os.path.getmtime(directory+layout_file))
     if pre_arandr < post_arandr:
         pass
+        print("No preset was saved")
+
     else:
         sys.exit()
     with open(directory+layout_name+".json", "w") as outfile:
