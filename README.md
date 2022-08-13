@@ -3,7 +3,7 @@
 #### Intended (but not tested) to work on following distros
 |distro families|-|-|-|
 |----|------|------|------|
-|rhel|fedora|centos|oracle|
+|rhel|fedora|centos||
 |debian|ubuntu|linuxmint|raspbian|
 |arch(tested )||||
 
