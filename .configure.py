@@ -48,6 +48,7 @@ def check_linuxFlavor():
                 myDistro = distro.linux_distribution(full_distribution_name=False)
             except:
                 sys.exit()
+    print(myDistro)
     return myDistro[0]
 
 
