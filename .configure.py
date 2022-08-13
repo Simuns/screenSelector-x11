@@ -42,8 +42,12 @@ def check_linuxFlavor():
             import distro
             myDistro = distro.linux_distribution(full_distribution_name=False)
         except:
-            print("could not determine distribution")
-            sys.exit()
+            try:
+                execute("pip3 install distro")
+                import distro
+                myDistro = distro.linux_distribution(full_distribution_name=False)
+            except:
+                sys.exit()
     return myDistro[0]
 
 
