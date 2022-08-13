@@ -8,7 +8,7 @@
 |arch(tested )||||
 
 * Clone repo: `git clone https://github.com/Simuns/screenSelector-x11.git`
-* `cd screenSelector-x11`
+* `cd screenSelector-x11/`
 * Install screenSelector: `sudo ./.configure`
 * List manual command options with by simply running `screenSelector`
 * If you wish screenSelector to run as an automated service, run following commands:
