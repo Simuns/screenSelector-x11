@@ -22,7 +22,7 @@ echo "" > ~/.screenlayout/.screenSetup_checksum.md5
                 echo "no match, start application"
                 after_md5=$before_md5
                 export DISPLAY=:0
-                python3 ~/git/screenSelector-x11/screenSelector.py > ~/git/screenSelector-x11/screenSelector.log
+                python3 /usr/local/bin/screenSelector --automated
         fi
         sleep 8
 
