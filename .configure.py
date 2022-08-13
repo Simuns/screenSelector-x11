@@ -33,18 +33,18 @@ def get_privelege():
 def check_linuxFlavor():
     try:
         info = platform.freedesktop_os_release()
-        distro = [info["ID"]]
+        myDistro = [info["ID"]]
         if "ID_LIKE" in info:
             # distro are space separated and ordered by precedence
-            distro.extend(info["ID_LIKE"].split())
+            myDistro.extend(info["ID_LIKE"].split())
     except:
         try:
             import distro
-            distro.linux_distribution(full_distribution_name=False)
+            myDistro = distro.linux_distribution(full_distribution_name=False)
         except:
             print("could not determine distribution")
             sys.exit()
-    return distro[0]
+    return myDistro[0]
 
 
 def list_missingDependencies():
