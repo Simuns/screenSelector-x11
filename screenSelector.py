@@ -75,16 +75,16 @@ def find_layout(current_monitors):
 def create_layout(current_monitors):
     pre_arandr = time.ctime()
     execute("arandr &")
-    input("Create layout and save it.\n Press [Enter] when done")
+    print("Create layout and save it.\n Press Exit Arandr when done")
     directory = os.path.expanduser('~/.screenlayout/')
     layout_file = execute(f"ls -t {directory}")[0].split("\n")[0]
     layout_name =layout_file.split(".")[0]
     post_arandr = time.ctime(os.path.getmtime(directory+layout_file))
     if pre_arandr < post_arandr:
         pass
-        print("No preset was saved")
-
+        print(f"Preset {layout_name} was saved")
     else:
+        print("You did not save a preset.\nExiting...")
         sys.exit()
     with open(directory+layout_name+".json", "w") as outfile:
         outfile.write(str(current_monitors))
