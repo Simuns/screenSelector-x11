@@ -179,7 +179,7 @@ def install_bin(install_dest, exe_path, user):
 def main():
     get_privelege()
     user = get_user()
-    missing_Dependencies = list_missingDependencies()
+    missing_Dependencies = list_missingDependencies(user)
     distro = check_linuxFlavor()
     install_dependencies(distro, missing_Dependencies)
     prepare_service(user)
