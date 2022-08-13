@@ -17,11 +17,11 @@
     - Then enable: `sudo systemctl enable screenSelector`
 ### Usage
 #### Commandline Options:
-|Option|Command|
-|------|----|
-|Create layout|--create -c|
-|Manually change layout|--manual -m|
-|Automated run (No Confirmation needed)|--automated -a|
+|Option|Long Command|Short Command|
+|------|------------|-------------|
+|Create layout|--create|-c|
+|Manually change layout|--manual|-m|
+|Automated run (No Confirmation needed)|--automated|-a|
 ##### Arandr
 * Creating a news layout will prompt automatically prompt Arandr.
 1. Configure your Display settings.
