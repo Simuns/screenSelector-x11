@@ -15,13 +15,19 @@
     - Start service: `sudo systemctl start screenSelector`
     - Verify status: `sudo systemctl status screenSelector`
     - Then enable: `sudo systemctl enable screenSelector`
-#### Usage
-##### Commandline Options:
+### Usage
+#### Commandline Options:
 |Option|Command|
 |------|----|
 |Create layout|--create -c|
 |Manually change layout|--manual -m|
 |Automated run (No Confirmation needed)|--automated -a|
+##### Arandr
+* Creating a news layout will prompt automatically prompt Arandr.
+1. Configure your Display settings.
+2. Save layout:Layout -> Save as
+3. Exit arandr
+
 ## todo
 
 - [x] Make sure systemvars work in service
