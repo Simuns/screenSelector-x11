@@ -1,4 +1,14 @@
-# todo
+
+# Installation Guide (Tested on arch)
+#### Intended (but not tested) to work on following distros.
+|----|------|------|------|
+|rhel|fedora|centos|oracle|
+|ubuntu|linuxmint|raspbian|
+|arch||||
+
+
+
+## todo
 
 - [x] Make sure systemvars work in service
 - [x] Separate script into smaller chunks
