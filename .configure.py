@@ -48,7 +48,7 @@ def check_linuxFlavor():
                 myDistro = distro.linux_distribution(full_distribution_name=False)
             except:
                 sys.exit()
-    print(myDistro)
+    print(myDistro[0])
     return myDistro[0]
 
 
@@ -72,7 +72,7 @@ def install_dependencies(distro, missing_Dependencies):
         pkg_manager = "pacman -Syu --noconfirm"
     elif distro == "ubuntu" or "raspbian" or "linuxmint":
         pkg_manager = "apt-get install -y"
-    elif distro == "centos" or "fedora" or "rhel" or "ol":
+    elif distro == "centos" or "fedora" or "rhel" or "oracle":
         pkg_manager = "yum install -y"
     else:
         print(f"Your distro {distro} is not supported. Please manually install the missing dependencies")
