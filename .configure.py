@@ -85,6 +85,7 @@ def install_dependencies(distro, missing_Dependencies):
             pass
 
 
+
     for dependency in missing_Dependencies:
         print(f"Installing {dependency}")
         installation = execute(f"{pkg_manager} {dependency}")
@@ -144,10 +145,16 @@ def install_bin(install_dest, exe_path, user):
     print(f"creating installation directory: {install_dest}/screenSelector-x11")
     execute(f"mkdir -p {install_dest}/screenSelector-x11")
     print("Setup...")
+    
     shutil.copy2("./screenSelector.py", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.sh", f"{install_dest}/screenSelector-x11/")
-    shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
+
+
     os.makedirs(f"/home/{user}/.screenlayout", exist_ok=False)
+    with open(f"/home/{user}/.screenlayout"/.screenSetup_checksum.md5", "a"):
+    os.utime("f/home/{user}/.screenlayout"/.screenSetup_checksum.md5", times)
+
+    shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
     try:
         os.symlink(f"{install_dest}/screenSelector-x11/screenSelector.py", f"{exe_path}/screenSelector")
     except:
