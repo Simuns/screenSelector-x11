@@ -15,7 +15,13 @@
     - Start service: `sudo systemctl start screenSelector`
     - Verify status: `sudo systemctl status screenSelector`
     - Then enable: `sudo systemctl enable screenSelector`
-
+#### Usage
+##### Commandline Options:
+|Option|Command|
+|------|----|
+|Create layout|--create -c|
+|Manually change layout|--manual -m|
+|Automated run (No Confirmation needed)|--automated -a|
 ## todo
 
 - [x] Make sure systemvars work in service
