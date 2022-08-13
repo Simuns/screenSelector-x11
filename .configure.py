@@ -66,6 +66,7 @@ def install_dependencies(distro, missing_Dependencies):
         sys.exit()
 
     for dependency in missing_Dependencies:
+        print(f"Installing {dependency}")
         installation = execute(f"{pkg_manager} {dependency}")
         if installation[1] == 0:
             pass
@@ -105,7 +106,7 @@ def get_user():
     return user
 
 def prepare_service():
-    print("Preparing service")
+    print("Preparing service file")
     user = get_user()
 
     fin = open("screenSelector.service.template", "rt")
@@ -121,9 +122,9 @@ def prepare_service():
     return
 
 def install_bin(install_dest, exe_path):
-    print("Creating installation directory...")
+    print(f"creating installation directory: {install_dest}/screenSelector-x11")
     execute(f"mkdir -p {install_dest}/screenSelector-x11")
-    print("Installing...")
+    print("Setup...")
     shutil.copy2("./screenSelector.py", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.sh", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
