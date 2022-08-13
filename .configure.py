@@ -82,6 +82,13 @@ def install_dependencies(distro, missing_Dependencies):
         else:
             pass
 
+    if distro == "centos" or "fedora" or "rhel" or "oracle":
+        for i in range(len(missing_Dependencies)):
+            # replace hardik with shardul
+            if missing_Dependencies[i] == 'xrandr':
+                missing_Dependencies[i] = 'libXrandr'
+        else:
+            pass
 
 
     for dependency in missing_Dependencies:
