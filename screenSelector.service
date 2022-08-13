@@ -1,9 +1,9 @@
 [Service]
-ExecStart=/home/simuns/git/screenSelector-x11/screenSelector.sh
+ExecStart=/usr/share/pyshared/screenSelector-x11/screenSelector.sh
 Restart=always
 WorkingDirectory=/home/simuns/
 User=simuns
 Group=simuns
 
-[install]
-WantedBy=runlevel5.target
+[Install]
+WantedBy=graphical.target
