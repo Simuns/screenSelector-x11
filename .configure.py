@@ -125,9 +125,8 @@ def get_user():
 
     return user
 
-def prepare_service():
+def prepare_service(user):
     print("Preparing service file")
-    user = get_user()
 
     fin = open("screenSelector.service.template", "rt")
     #output file to write the result to
@@ -141,13 +140,14 @@ def prepare_service():
     fout.close()
     return
 
-def install_bin(install_dest, exe_path):
+def install_bin(install_dest, exe_path, user):
     print(f"creating installation directory: {install_dest}/screenSelector-x11")
     execute(f"mkdir -p {install_dest}/screenSelector-x11")
     print("Setup...")
     shutil.copy2("./screenSelector.py", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.sh", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
+    os.makedirs(f"/home/{user}/.screenlayout", exist_ok=False)
     try:
         os.symlink(f"{install_dest}/screenSelector-x11/screenSelector.py", f"{exe_path}/screenSelector")
     except:
@@ -159,10 +159,11 @@ def main():
     missing_Dependencies = list_missingDependencies()
     distro = check_linuxFlavor()
     install_dependencies(distro, missing_Dependencies)
-    prepare_service()
+    user = get_user()
+    prepare_service(user)
     install_dest = ("/usr/share/pyshared")
     exe_path = ("/usr/local/bin")
-    install_bin(install_dest, exe_path)
+    install_bin(install_dest, exe_path, user)
     print("Installation complete")
 
     return
