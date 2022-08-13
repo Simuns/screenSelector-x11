@@ -77,8 +77,6 @@ def install_dependencies(distro, missing_Dependencies):
         for i in range(len(missing_Dependencies)):
         
             # replace hardik with shardul
-            if missing_Dependencies[i] == 'arandr':
-                missing_Dependencies[i] = 'x11-xserver-utils'
             if missing_Dependencies[i] == 'xrandr':
                 missing_Dependencies[i] = 'x11-xserver-utils'
         else:
@@ -153,7 +151,10 @@ def install_bin(install_dest, exe_path, user):
         os.makedirs(f"/home/{user}/.screenlayout")
     except:
         pass
-    execute(f"touch /home/{user}/.screenlayout/.screenSetup_checksum.md5")
+    try:
+        Path(f"touch /home/{user}/.screenlayout/.screenSetup_checksum.md5").touch(mode=0o766, exist_ok=True)
+    except:
+        pass
 
     shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
     try:
