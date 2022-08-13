@@ -23,7 +23,7 @@
 |Manually change layout|--manual|-m|
 |Automated run (No Confirmation needed)|--automated|-a|
 ##### Arandr
-* Creating a news layout will prompt automatically prompt Arandr.
+* Creating a news layout will automatically prompt Arandr.
 1. Configure your Display settings.
 2. Save layout:Layout -> Save as
 3. Exit arandr
