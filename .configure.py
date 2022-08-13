@@ -52,11 +52,11 @@ def check_linuxFlavor():
     return myDistro[0]
 
 
-def list_missingDependencies():
+def list_missingDependencies(user):
     dependencies = ['xrandr','arandr','hwinfo']
     missing_Dependencies = []
     for dependency in dependencies:
-        current_dependency = execute(f"which {dependency}")[1]
+        current_dependency = execute(f"su - {user} -c \"which {dependency}\"")[1]
         if current_dependency == 0:
             pass
         else:
@@ -178,10 +178,10 @@ def install_bin(install_dest, exe_path, user):
 
 def main():
     get_privelege()
+    user = get_user()
     missing_Dependencies = list_missingDependencies()
     distro = check_linuxFlavor()
     install_dependencies(distro, missing_Dependencies)
-    user = get_user()
     prepare_service(user)
     install_dest = ("/usr/share/pyshared")
     exe_path = ("/usr/local/bin")
