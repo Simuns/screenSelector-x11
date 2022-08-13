@@ -65,7 +65,7 @@ def install_dependencies(distro, missing_Dependencies):
     print("Checking for missing Dependencies")
     if distro == "arch":
         pkg_manager = "pacman -Syu --noconfirm"
-    elif distro == "ubuntu" or raspbian or linuxmint:
+    elif distro == "ubuntu" or "raspbian" or "linuxmint":
         pkg_manager = "apt-get install -y"
     elif distro == "centos" or "fedora" or "rhel" or "oracle":
         pkg_manager = "yum install -y"
