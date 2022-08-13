@@ -149,8 +149,10 @@ def install_bin(install_dest, exe_path, user):
     shutil.copy2("./screenSelector.py", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.sh", f"{install_dest}/screenSelector-x11/")
 
-
-    os.makedirs(f"/home/{user}/.screenlayout", exist_ok=False)
+    try:
+        os.makedirs(f"/home/{user}/.screenlayout")
+    except:
+        pass
     execute(f"touch /home/{user}/.screenlayout/.screenSetup_checksum.md5")
 
     shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
