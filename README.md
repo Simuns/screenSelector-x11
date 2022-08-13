@@ -1,12 +1,20 @@
 
 # Installation Guide (Tested on arch)
-#### Intended (but not tested) to work on following distros.
+#### Intended (but not tested) to work on following distros
+|distro families|-|-|-|
 |----|------|------|------|
 |rhel|fedora|centos|oracle|
-|ubuntu|linuxmint|raspbian|
-|arch||||
+|debian|ubuntu|linuxmint|raspbian|
+|arch(tested )||||
 
-
+* Clone repo: `git clone https://github.com/Simuns/screenSelector-x11.git`
+* `cd screenSelector-x11`
+* Install screenSelector: `sudo ./.configure`
+* List manual command options with by simply running `screenSelector`
+* If you wish screenSelector to run as an automated service, run following commands:
+    - Start service: `sudo systemctl start screenSelector`
+    - Verify status: `sudo systemctl status screenSelector`
+    - Then enable: `sudo systemctl enable screenSelector`
 
 ## todo
 
