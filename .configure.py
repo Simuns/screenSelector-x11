@@ -152,7 +152,8 @@ def install_bin(install_dest, exe_path, user):
     except:
         pass
     try:
-        Path(f"/home/{user}/.screenlayout/.screenSetup_checksum.md5").touch(mode=0o766, exist_ok=True)
+        execute(f"touch /home/{user}/.screenlayout/.screenSetup_checksum.md5")
+        execute(f"chown {user}:{user} /home/{user}/.screenlayout/.screenSetup_checksum.md5")
     except:
         pass
 
