@@ -75,6 +75,8 @@ def install_bin(install_dest, exe_path):
     execute(f"mkdir -p {install_dest}/screenSelector-x11")
     print("Installing...")
     shutil.copy2("./screenSelector.py", f"{install_dest}/screenSelector-x11/")
+    shutil.copy2("./screenSelector.sh", f"{install_dest}/screenSelector-x11/")
+    shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
     try:
         os.symlink(f"{install_dest}/screenSelector-x11/screenSelector.py", f"{exe_path}/screenSelector")
     except:
