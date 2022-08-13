@@ -1,0 +1,9 @@
+[Service]
+ExecStart=/usr/share/pyshared/screenSelector-x11/screenSelector.sh
+Restart=always
+WorkingDirectory=/home/USER/
+User=USER
+Group=USER
+
+[Install]
+WantedBy=graphical.target
