@@ -77,10 +77,10 @@ def install_dependencies(distro, missing_Dependencies):
         for i in range(len(missing_Dependencies)):
         
             # replace hardik with shardul
-            if l[i] == 'arandr':
-                l[i] = 'x11-xserver-utils'
-            if l[i] == 'xrandr':
-                l[i] = 'x11-xserver-utils'
+            if missing_Dependencies[i] == 'arandr':
+                missing_Dependencies[i] = 'x11-xserver-utils'
+            if missing_Dependencies[i] == 'xrandr':
+                missing_Dependencies[i] = 'x11-xserver-utils'
         else:
             pass
 
