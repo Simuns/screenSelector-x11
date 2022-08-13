@@ -31,11 +31,19 @@ def get_privelege():
 
 
 def check_linuxFlavor():
-    info = platform.freedesktop_os_release()
-    distro = [info["ID"]]
-    if "ID_LIKE" in info:
-        # distro are space separated and ordered by precedence
-        distro.extend(info["ID_LIKE"].split())
+    try:
+        info = platform.freedesktop_os_release()
+        distro = [info["ID"]]
+        if "ID_LIKE" in info:
+            # distro are space separated and ordered by precedence
+            distro.extend(info["ID_LIKE"].split())
+    except:
+        try:
+            import distro
+            distro.linux_distribution(full_distribution_name=False)
+        except:
+            print("could not determine distribution")
+            sys.exit()
     return distro[0]
 
 
@@ -64,6 +72,18 @@ def install_dependencies(distro, missing_Dependencies):
     else:
         print(f"Your distro {distro} is not supported. Please manually install the missing dependencies")
         sys.exit()
+# special package names
+    if distro == "raspbian":
+        for i in range(len(missing_Dependencies)):
+        
+            # replace hardik with shardul
+            if l[i] == 'arandr':
+                l[i] = 'x11-xserver-utils'
+            if l[i] == 'xrandr':
+                l[i] = 'x11-xserver-utils'
+        else:
+            pass
+
 
     for dependency in missing_Dependencies:
         print(f"Installing {dependency}")
@@ -148,3 +168,4 @@ def main():
     return
 
 main()
+
