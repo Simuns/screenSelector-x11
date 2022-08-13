@@ -70,9 +70,9 @@ def install_dependencies(distro, missing_Dependencies):
     print("Checking for missing Dependencies")
     if distro == "arch":
         pkg_manager = "pacman -Syu --noconfirm"
-    elif distro == "ubuntu" or "raspbian" or "linuxmint":
+    elif distro == "ubuntu" or distro == "raspbian" or distro == "linuxmint":
         pkg_manager = "apt-get install -y"
-    elif distro == "centos" or "fedora" or "rhel" or "oracle":
+    elif distro == "centos" or distro == "fedora" or distro == "rhel" or distro == "oracle":
         pkg_manager = "yum install -y"
     else:
         print(f"Your distro {distro} is not supported. Please manually install the missing dependencies")
@@ -87,7 +87,7 @@ def install_dependencies(distro, missing_Dependencies):
         else:
             pass
 
-    if distro == "centos" or "rhel":
+    if distro == "centos" or distro == "rhel":
         for i in range(len(missing_Dependencies)):
             # replace hardik with shardul
             if missing_Dependencies[i] == 'xrandr':
