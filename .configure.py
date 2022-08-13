@@ -72,7 +72,7 @@ def install_dependencies(distro, missing_Dependencies):
         pkg_manager = "pacman -Syu --noconfirm"
     elif distro == "ubuntu" or distro == "raspbian" or distro == "linuxmint":
         pkg_manager = "apt-get install -y"
-    elif distro == "centos" or distro == "fedora" or distro == "rhel" or distro == "oracle":
+    elif distro == "centos" or distro == "fedora" or distro == "rhel":
         pkg_manager = "yum install -y"
     else:
         print(f"Your distro {distro} is not supported. Please manually install the missing dependencies")
