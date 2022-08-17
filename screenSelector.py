@@ -7,7 +7,7 @@ import sys
 import json
 import ast
 import time
-
+import re
 ##Testing
 def get_fileTimestamp(file_path):
     import os.path, time
@@ -90,6 +90,38 @@ def create_layout(current_monitors):
         outfile.write(str(current_monitors))
     print("Layout created")
 
+def autocreate_layout():
+    resline = False
+    res = []
+    screens = []
+    substring = " connected "
+    raw_monitors = execute("xrandr")[0]
+    for line in raw_monitors.splitlines():
+
+        # if last line included header for connected monitor, then list highest monitor resolution, and all hz options into array
+        if resline == True:
+            res.append(line)
+            resline = False
+            pattern_resolution = re.compile(r'\d{3,5}x\d{3,5}')
+            resolution_raw = pattern_resolution.findall(line)[0]
+            resolution = resolution_raw.split('x')
+            print(resolution)
+            pattern_ghz = re.compile(r'\d{2,3}\.\d{2,3}')
+            print(pattern_ghz.findall(line))
+            #screens.append()
+
+        # if line includes a connected monitor, then index the monitor into dictionary
+        if substring in line:
+            res.append(line)
+
+            monitor_name = line.split(' ', 1)[0]
+            #print(monitor_name)
+            screens.append(monitor_name)
+            
+            resline = True        
+    return screens
+
+
 def activate_layout(path_layout):
     full_fileName = path_layout.split("/")[-1]
     split_fileName = full_fileName.split(".")[0]
@@ -144,4 +176,5 @@ def main():
         sys.exit()
     return
 
-main()
+#main()
+autocreate_layout()
