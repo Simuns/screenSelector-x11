@@ -132,12 +132,22 @@ def automirror_layout():
                 screens[monitor_name]['primary'] = False
             else:
                 screens[monitor_name]['primary'] = True
+                primary_screen = monitor_name
             resline = True
 
-    # verify if monitors run same resolution
+    # Generate xrandr mirror displays command
+    command_xrandrMirror = f"xrandr --output {primary_screen} --mode {screens[primary_screen]['max_resolution'][0]}x{screens[primary_screen]['max_resolution'][1]} "
     for connected in screens:
-        print(connected)
-        #if screens[connected][max_]
+        if screens[connected]['primary'] == False:
+            if screens[connected]['max_resolution'] == screens[primary_screen]['max_resolution']:
+                command_xrandrMirror = command_xrandrMirror+str(f"--output {connected} --same-as {primary_screen} --mode {screens[connected]['max_resolution'][0]}x{screens[connected]['max_resolution'][1]} ")
+                pass
+            else:
+                print("screen resolution for:",connected,"does not match screen resolution for primary screen",primary_screen+"\nexiting...")
+                sys.exit()
+    print("all screens match primary screens resolution\nActivating Mirrored layout")
+    execute(command_xrandrMirror)
+
         
     return screens
 
@@ -176,7 +186,7 @@ def automated():
     if check_layoutExsists[0] == True:
         activate_layout(check_layoutExsists[1])
     else:
-        # Future notify user that the layout does not excists
+        automirror_layout()
         sys.exit()
 
 
@@ -197,5 +207,3 @@ def main():
     return
 
 #main()
-screens = automirror_layout()
-print(json.dumps(screens, indent = 4))
