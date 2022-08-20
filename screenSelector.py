@@ -109,19 +109,23 @@ def automirror_layout():
                 resolution = resolution_raw.split('x')
                 pattern_ghz = re.compile(r'\d{2,3}\.\d{2,3}')
                 frequency = pattern_ghz.findall(line)
-                sorted_frequency = frequency.sort()
+                float_frequency = [float(x) for x in frequency]
+                sorted_frequency = float_frequency.sort(reverse=True)
+                #print("float_frequency:",float_frequency) 
+                
+                #print("sorted_frequency:",sorted_frequency)
                 #append max resolution list to dictionary
-                screens[monitor_name][resolution_raw] = {}
-                screens[monitor_name][resolution_raw]['resolution'] = []
+                screens[monitor_name]["monitor_option"][resolution_raw] = {}
+                screens[monitor_name]["monitor_option"][resolution_raw]['resolution'] = []
+                screens[monitor_name]["monitor_option"][resolution_raw]['frequency'] = []
 
 
                 for direction in resolution:
-                    screens[monitor_name][resolution_raw]['resolution'].append(direction) 
+                    screens[monitor_name]["monitor_option"][resolution_raw]['resolution'].append(int(direction))
                 #append frequency list to dictionary            
                 count = 0
-                screens[monitor_name][resolution_raw]['frequency'] = []
                 for option in frequency:
-                    screens[monitor_name][resolution_raw]['frequency'].append(frequency[count])
+                    screens[monitor_name]["monitor_option"][resolution_raw]['frequency'].append(frequency[count])
                     count += 1
             else:
                 resline = False
@@ -138,6 +142,7 @@ def automirror_layout():
             monitor_name = line.split(' ', 1)[0]
             screens[monitor_name] = {}
             screens[monitor_name]['primary'] = bool
+            screens[monitor_name]["monitor_option"] = {}
             bool_primary = bool(re.search(" primary ", line))
             if bool_primary == False:
                 screens[monitor_name]['primary'] = False
@@ -150,8 +155,7 @@ def automirror_layout():
 #    command_xrandrMirror = f"xrandr --output {primary_screen} --mode {screens[primary_screen]['max_resolution'][0]}x{screens[primary_screen]['max_resolution'][1]} "
 #    for connected in screens:
 #        if screens[connected]['primary'] == False:
-#            if screens[connected]['max_resolution'] == screens[primary_screen]['max_resolution']:
-#                command_xrandrMirror = command_xrandrMirror+str(f"--output {connected} --same-as {primary_screen} --mode {screens[connected]['max_resolution'][0]}x{screens[connected]['max_resolution'][1]} ")
+#            
 #                pass
 #            else:
 #                print("screen resolution for:",connected,"does not match screen resolution for primary screen",primary_screen+"\nexiting...")
@@ -160,6 +164,7 @@ def automirror_layout():
 #    print("all screens match primary screens resolution\nActivating Mirrored layout")
     #execute(command_xrandrMirror)
 
+ # ADD EXTRA SCREEN LINE    command_xrandrMirror = command_xrandrMirror+str(f"--output {connected} --same-as {primary_screen} --mode {screens[connected]['max_resolution'][0]}x{screens[connected]['max_resolution'][1]} ")
         
     return screens
 
@@ -223,3 +228,5 @@ screens = automirror_layout()
 with open("screens1.json", "w") as outfile:
     json.dump(screens, outfile)
 print(screens)
+
+#for resolutions in screens[]
