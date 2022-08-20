@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from sre_constants import MAX_REPEAT
 import subprocess # Used for unix commmands
 from subprocess import PIPE, STDOUT # Used for unix commmands
 import os
@@ -90,35 +91,54 @@ def create_layout(current_monitors):
         outfile.write(str(current_monitors))
     print("Layout created")
 
-def autocreate_layout():
+def automirror_layout():
     resline = False
     res = []
-    screens = []
+    screens = {}
     substring = " connected "
     raw_monitors = execute("xrandr")[0]
     for line in raw_monitors.splitlines():
 
         # if last line included header for connected monitor, then list highest monitor resolution, and all hz options into array
         if resline == True:
-            res.append(line)
             resline = False
+            
             pattern_resolution = re.compile(r'\d{3,5}x\d{3,5}')
             resolution_raw = pattern_resolution.findall(line)[0]
             resolution = resolution_raw.split('x')
-            print(resolution)
             pattern_ghz = re.compile(r'\d{2,3}\.\d{2,3}')
-            print(pattern_ghz.findall(line))
-            #screens.append()
+            frequency = pattern_ghz.findall(line)
+            sorted_frequency = frequency.sort()
 
+            #append max resolution list to dictionary
+            screens[monitor_name]['max_resolution'] = []
+            for direction in resolution:
+                screens[monitor_name]['max_resolution'].append(direction) 
+
+            #append frequency list to dictionary            
+            count = 0
+            screens[monitor_name]['frequency'] = []
+            for option in frequency:
+                screens[monitor_name]['frequency'].append(frequency[count])
+                count += 1
+        
         # if line includes a connected monitor, then index the monitor into dictionary
         if substring in line:
-            res.append(line)
-
             monitor_name = line.split(' ', 1)[0]
-            #print(monitor_name)
-            screens.append(monitor_name)
-            
-            resline = True        
+            screens[monitor_name] = {}
+            screens[monitor_name]['primary'] = bool
+            bool_primary = bool(re.search(" primary ", line))
+            if bool_primary == False:
+                screens[monitor_name]['primary'] = False
+            else:
+                screens[monitor_name]['primary'] = True
+            resline = True
+
+    # verify if monitors run same resolution
+    for connected in screens:
+        print(connected)
+        #if screens[connected][max_]
+        
     return screens
 
 
@@ -177,4 +197,5 @@ def main():
     return
 
 #main()
-autocreate_layout()
+screens = automirror_layout()
+print(json.dumps(screens, indent = 4))
