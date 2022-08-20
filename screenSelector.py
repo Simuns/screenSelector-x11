@@ -95,32 +95,43 @@ def automirror_layout():
     resline = False
     res = []
     screens = {}
-    substring = " connected "
     raw_monitors = execute("xrandr")[0]
+    substring = " connected "
     for line in raw_monitors.splitlines():
 
         # if last line included header for connected monitor, then list highest monitor resolution, and all hz options into array
         if resline == True:
-            resline = False
-            
-            pattern_resolution = re.compile(r'\d{3,5}x\d{3,5}')
-            resolution_raw = pattern_resolution.findall(line)[0]
-            resolution = resolution_raw.split('x')
-            pattern_ghz = re.compile(r'\d{2,3}\.\d{2,3}')
-            frequency = pattern_ghz.findall(line)
-            sorted_frequency = frequency.sort()
+            bool_resline = bool(re.search('^\s{3}', line))
+            if bool_resline == True:
+                print(line)
+                pattern_resolution = re.compile(r'\d{3,5}x\d{3,5}')
+                resolution_raw = pattern_resolution.findall(line)[0]
+                resolution = resolution_raw.split('x')
+                pattern_ghz = re.compile(r'\d{2,3}\.\d{2,3}')
+                frequency = pattern_ghz.findall(line)
+                sorted_frequency = frequency.sort()
+                #append max resolution list to dictionary
+                screens[monitor_name][resolution_raw] = {}
+                screens[monitor_name][resolution_raw]['resolution'] = []
 
-            #append max resolution list to dictionary
-            screens[monitor_name]['max_resolution'] = []
-            for direction in resolution:
-                screens[monitor_name]['max_resolution'].append(direction) 
 
-            #append frequency list to dictionary            
-            count = 0
-            screens[monitor_name]['frequency'] = []
-            for option in frequency:
-                screens[monitor_name]['frequency'].append(frequency[count])
-                count += 1
+                for direction in resolution:
+                    screens[monitor_name][resolution_raw]['resolution'].append(direction) 
+                #append frequency list to dictionary            
+                count = 0
+                screens[monitor_name][resolution_raw]['frequency'] = []
+                for option in frequency:
+                    screens[monitor_name][resolution_raw]['frequency'].append(frequency[count])
+                    count += 1
+            else:
+                resline = False
+
+        
+        
+        
+        
+        
+        
         
         # if line includes a connected monitor, then index the monitor into dictionary
         if substring in line:
@@ -135,18 +146,19 @@ def automirror_layout():
                 primary_screen = monitor_name
             resline = True
 
-    # Generate xrandr mirror displays command
-    command_xrandrMirror = f"xrandr --output {primary_screen} --mode {screens[primary_screen]['max_resolution'][0]}x{screens[primary_screen]['max_resolution'][1]} "
-    for connected in screens:
-        if screens[connected]['primary'] == False:
-            if screens[connected]['max_resolution'] == screens[primary_screen]['max_resolution']:
-                command_xrandrMirror = command_xrandrMirror+str(f"--output {connected} --same-as {primary_screen} --mode {screens[connected]['max_resolution'][0]}x{screens[connected]['max_resolution'][1]} ")
-                pass
-            else:
-                print("screen resolution for:",connected,"does not match screen resolution for primary screen",primary_screen+"\nexiting...")
-                sys.exit()
-    print("all screens match primary screens resolution\nActivating Mirrored layout")
-    execute(command_xrandrMirror)
+#    # Generate xrandr mirror displays command
+#    command_xrandrMirror = f"xrandr --output {primary_screen} --mode {screens[primary_screen]['max_resolution'][0]}x{screens[primary_screen]['max_resolution'][1]} "
+#    for connected in screens:
+#        if screens[connected]['primary'] == False:
+#            if screens[connected]['max_resolution'] == screens[primary_screen]['max_resolution']:
+#                command_xrandrMirror = command_xrandrMirror+str(f"--output {connected} --same-as {primary_screen} --mode {screens[connected]['max_resolution'][0]}x{screens[connected]['max_resolution'][1]} ")
+#                pass
+#            else:
+#                print("screen resolution for:",connected,"does not match screen resolution for primary screen",primary_screen+"\nexiting...")
+#                pass
+#                #sys.exit()
+#    print("all screens match primary screens resolution\nActivating Mirrored layout")
+    #execute(command_xrandrMirror)
 
         
     return screens
@@ -207,3 +219,7 @@ def main():
     return
 
 #main()
+screens = automirror_layout()
+with open("screens1.json", "w") as outfile:
+    json.dump(screens, outfile)
+print(screens)
