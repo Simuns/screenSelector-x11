@@ -28,4 +28,3 @@ echo "" > ~/.screenlayout/.screenSetup_checksum.md5
 
 
 done
-~              
