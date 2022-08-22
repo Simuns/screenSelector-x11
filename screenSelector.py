@@ -17,8 +17,6 @@ def get_fileTimestamp(file_path):
     return lastModified_stamp, creation_stamp 
 
 
-
-
 def execute(cmd):
     exec = subprocess.Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True)
     output = exec.communicate()[0]
@@ -142,15 +140,38 @@ def get_screens():
             resline = True
             
             if screens[monitor_name]['primary'] == True:
-                primary_screen = screens[monitor_name]
                 pattern_resolution = re.compile(r'\d{3,5}x\d{3,5}')
                 resolution_raw = pattern_resolution.findall(line)[0]
                 screens[monitor_name]['active_resolution'] = resolution_raw
 
-
     return screens
 
-#def 
+
+def auto_mirror(screens):
+    # Find Main display
+    for display in screens:
+        if screens[display]['primary'] == True:
+            primary_display = display
+            mirror_resolution = screens[primary_display]['active_resolution']
+        else:
+            pass
+
+    # Generate xrandr command
+    command_xrandrMirror = f"xrandr --output {primary_display} --mode {mirror_resolution} "
+    for display in screens:
+        if screens[display]['primary'] == False:
+            for option in screens[display]['monitor_option']:
+                if option == mirror_resolution:
+                    print(f"Display: {display} CAN display at res:{mirror_resolution}")
+                    command_xrandrMirror = command_xrandrMirror+str(f"--output {display} --same-as {primary_display} --mode {mirror_resolution} ")
+                else:
+                    pass
+        else:
+            pass
+        
+    #execute xrandr command
+    execute(command_xrandrMirror)
+    return
 
 def activate_layout(path_layout):
     full_fileName = path_layout.split("/")[-1]
@@ -168,14 +189,20 @@ def manual():
         yes_no = input("do you want to activate layout? (y/n)")
         if yes_no == "y":
             activate_layout(check_layoutExsists[1])
+        elif yes_no == "m":
+            screens = get_screens()
+            auto_mirror(screens)            
         else:
             sys.exit()
     else:
         print("There is no layout present with your current monitors")
-        yes_no = input("do you want to Create layout? (y/n)")
+        yes_no = input("do you want to Create layout? (y/n)\nTo mirror screens,type (m)")
         print(current_monitors)
         if yes_no == "y":
             create_layout(current_monitors)
+        elif yes_no == "m":
+            screens = get_screens()
+            auto_mirror(screens)
         else:
             sys.exit()
 
@@ -186,7 +213,9 @@ def automated():
     if check_layoutExsists[0] == True:
         activate_layout(check_layoutExsists[1])
     else:
-        automirror_layout()
+        # Attempt to mirror the displays
+        screens = get_screens()
+        auto_mirror(screens)
         sys.exit()
 
 
@@ -205,28 +234,6 @@ def main():
         print("Options...\n --manual -m, --automated -a, --create -c")
         sys.exit()
     return
-def auto_mirror(screens):
-    # Find Main display
-    for display in screens:
-        if screens[display]['primary'] == True:
-            primary_display = display
-        else:
-            pass
 
-    for display in screens:
-        if screens[display]['primary'] == False:
-            for option in screens[display]['monitor_option']:
-                if option == screens[primary_display]['active_resolution']:
-                    print(f"Display: {display} CAN display at res:{screens[primary_display]['active_resolution']}")
-                else:
-                    pass
-        else:
-            pass
-    return
 
-#main()
-screens = get_screens()
-json_screens = json.dumps(screens, indent=4)
-with open("screens1.json", "w") as outfile:
-    outfile.write(json_screens)
-auto_mirror(screens)
+main()
