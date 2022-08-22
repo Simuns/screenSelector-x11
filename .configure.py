@@ -144,8 +144,8 @@ def prepare_service(user):
     fout = open("screenSelector.service", "wt")
     #for each line in the input file
     for line in fin:
-    	#read replace the string and write to output file
-    	fout.write(line.replace('USER', user))
+        #read replace the string and write to output file
+        fout.write(line.replace('USER', user))
     #close input and output files
     fin.close()
     fout.close()
@@ -158,18 +158,15 @@ def install_bin(install_dest, exe_path, user):
 
     shutil.copy2("./screenSelector.py", f"{install_dest}/screenSelector-x11/")
     shutil.copy2("./screenSelector.sh", f"{install_dest}/screenSelector-x11/")
+    shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
 
     try:
         os.makedirs(f"/home/{user}/.screenlayout")
     except:
         pass
-    try:
-        execute(f"touch /home/{user}/.screenlayout/.screenSetup_checksum.md5")
-        execute(f"chown {user}:{user} /home/{user}/.screenlayout/.screenSetup_checksum.md5")
-    except:
-        pass
 
-    shutil.copy2("./screenSelector.service", "/etc/systemd/system/")
+    execute(f"touch /home/{user}/.screenlayout/.screenSetup_checksum.md5")
+    execute(f"chown {user}:{user} /home/{user}/.screenlayout/.screenSetup_checksum.md5")
     try:
         os.symlink(f"{install_dest}/screenSelector-x11/screenSelector.py", f"{exe_path}/screenSelector")
     except:
