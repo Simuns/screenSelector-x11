@@ -1,9 +1,0 @@
-[Service]
-ExecStart=/usr/share/pyshared/screenSelector-x11/screenSelector.sh
-Restart=always
-WorkingDirectory=/home/simuns/
-User=simuns
-Group=simuns
-
-[Install]
-WantedBy=graphical.target
