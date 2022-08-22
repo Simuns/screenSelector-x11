@@ -50,7 +50,6 @@ def find_layout(current_monitors):
             if layout == current_monitors:
                 layout_found += 1
                 path = str(file)
-                print("Layout is already used.")
             else: 
                 pass
 
@@ -168,7 +167,7 @@ def auto_mirror(screens):
                     pass
         else:
             pass
-        
+
     #execute xrandr command
     execute(command_xrandrMirror)
     return
@@ -180,30 +179,31 @@ def activate_layout(path_layout):
     print("Activating layout", split_fileName)
     execute(f"bash {path}{split_fileName}.sh")
 
-
 def manual():
     current_monitors = list_monitors()
     check_layoutExsists = find_layout(current_monitors)
     if check_layoutExsists[0] == True:
         print("Layout already exsists:", check_layoutExsists[1])
-        yes_no = input("do you want to activate layout? (y/n)")
-        if yes_no == "y":
+        yes_no = input("\nEnter:\na) To activate layout\nm) To mirror all screens\nq) To quit\nChoise: ")
+        if yes_no == "a":
             activate_layout(check_layoutExsists[1])
         elif yes_no == "m":
             screens = get_screens()
             auto_mirror(screens)            
         else:
+            print("Exiting...")
             sys.exit()
     else:
         print("There is no layout present with your current monitors")
-        yes_no = input("do you want to Create layout? (y/n)\nTo mirror screens,type (m)")
+        yes_no = input("\nEnter:\nc) To create a new layout\nm) To mirror all screens\nq) To quit\nChoise:")
         print(current_monitors)
-        if yes_no == "y":
+        if yes_no == "c":
             create_layout(current_monitors)
         elif yes_no == "m":
             screens = get_screens()
             auto_mirror(screens)
         else:
+            print("Exiting...")
             sys.exit()
 
 
