@@ -42,3 +42,4 @@
 - [x] fix switchcases based on userinput (automated, manual, create ect..)
 - [ ] Author a complete README including. sections(installation, requirements, how it works)
 - [ ] test app on multiple distros
+- [ ] make uninstallable
