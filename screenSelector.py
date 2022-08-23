@@ -16,6 +16,17 @@ def get_fileTimestamp(file_path):
     creation_stamp = time.ctime(os.path.getctime(file_path))
     return lastModified_stamp, creation_stamp 
 
+def notify(messageType, message):
+    # verify user has notify installed
+    fact_installed = execute("which notify-send")[1]
+    if fact_installed > 0:
+        pass
+    else:
+        if messageType == "layout":
+            execute(f"notify-send --urgency=normal \"Screen layout:\" {message}")
+        elif messageType == "mirror":
+            execute('notify-send --urgency=normal "Mirroring displays" "No layout found"')
+    return
 
 def execute(cmd):
     exec = subprocess.Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True)
@@ -170,6 +181,7 @@ def auto_mirror(screens):
 
     #execute xrandr command
     execute(command_xrandrMirror)
+    notify('mirror',"")
     return
 
 def activate_layout(path_layout):
@@ -178,6 +190,7 @@ def activate_layout(path_layout):
     path = path_layout.rsplit('/', 1)[0]+"/"
     print("Activating layout", split_fileName)
     execute(f"bash {path}{split_fileName}.sh")
+    notify("layout",split_fileName)
 
 def manual():
     current_monitors = list_monitors()
