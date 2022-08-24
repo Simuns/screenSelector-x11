@@ -231,7 +231,7 @@ def automated():
         auto_mirror(screens)
         sys.exit()
 
-def create()
+def create():
     current_monitors = list_monitors()
     create_layout(current_monitors)
 
