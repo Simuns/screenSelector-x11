@@ -231,18 +231,20 @@ def automated():
         auto_mirror(screens)
         sys.exit()
 
+def create()
+    current_monitors = list_monitors()
+    create_layout(current_monitors)
 
 def main():
     if len(sys.argv) == 1:
         print("Options...\n --manual -m, --automated -a, --create -c")
         sys.exit()
-
-    elif sys.argv[1] == "--manual" or sys.argv[1] == "-m" or sys.argv[1] == "--create" or sys.argv[1] == "-c":
+    elif sys.argv[1] == "--manual" or sys.argv[1] == "-m":
         manual()
-
+    elif sys.argv[1] == "--create" or sys.argv[1] == "-c":
+        create()
     elif sys.argv[1] == "--automated" or sys.argv[1] == "-a":
         automated()
-
     else:
         print("Options...\n --manual -m, --automated -a, --create -c")
         sys.exit()
