@@ -22,10 +22,13 @@ def notify(messageType, message):
     if fact_installed > 0:
         pass
     else:
+        print("notifying")
         if messageType == "layout":
-            execute(f"notify-send --urgency=normal \"Screen layout:\" {message}")
+            print(execute("export DISPLAY=:0.0"))
+            
+            print(execute(f"DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus /usr/bin/notify-send --urgency=normal \"Screen layout:\" {message}"))
         elif messageType == "mirror":
-            execute('notify-send --urgency=normal "Mirroring displays" "No layout found"')
+            execute('DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus /usr/bin/notify-send --urgency=normal "Mirroring displays"')
     return
 
 def execute(cmd):
@@ -194,6 +197,7 @@ def manual():
     check_layoutExsists = find_layout(current_monitors)
     if check_layoutExsists[0] == True:
         if len(check_layoutExsists[1]) > 1:
+            print("Which layout do you want to activate?")
             count = 0
             for layout in check_layoutExsists[1]:
                 count += 1
@@ -201,7 +205,7 @@ def manual():
                 split_fileName = full_fileName.split(".")[0]
                 print(f"{count}) {split_fileName}")
             print("q) Quit")
-            layout_choise = input("Which layout do you want to activate?\nChoise: ")
+            layout_choise = input("Choise: ")
             if layout_choise == "q":
                 sys.exit()
             else:
