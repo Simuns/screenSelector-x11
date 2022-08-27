@@ -52,6 +52,7 @@ def find_layout(current_monitors):
     files = Path(directory).glob('*.json')
     print("cm:",current_monitors)
     layout_found = 0
+    path = []
     for file in files:
         with open(file, 'r') as f:
             layout_raw = list(f)[0]
@@ -60,7 +61,7 @@ def find_layout(current_monitors):
             layout.sort()
             if layout == current_monitors:
                 layout_found += 1
-                path = str(file)
+                path.append(str(file))
             else: 
                 pass
 
@@ -69,12 +70,8 @@ def find_layout(current_monitors):
         print("no matching layout found")
         path = ""
         layout_bool = False
-    elif layout_found == 1:
+    elif layout_found > 0:
         layout_bool = True
-    elif layout_found > 1:
-        print("Too many matching layout found, picking first one")
-        path = path[0]
-        layout_bool = False
     else:
         layout_bool = False
 
@@ -196,10 +193,29 @@ def manual():
     current_monitors = list_monitors()
     check_layoutExsists = find_layout(current_monitors)
     if check_layoutExsists[0] == True:
-        print("Layout already exsists:", check_layoutExsists[1])
+        if len(check_layoutExsists[1]) > 1:
+            count = 0
+            for layout in check_layoutExsists[1]:
+                count += 1
+                full_fileName = layout.split("/")[-1]
+                split_fileName = full_fileName.split(".")[0]
+                print(f"{count}) {split_fileName}")
+            print("q) Quit")
+            layout_choise = input("Which layout do you want to activate?\nChoise: ")
+            if layout_choise == "q":
+                sys.exit()
+            else:
+                layout_choise = int(layout_choise)
+                layout_choise -= 1
+                activate_layout(check_layoutExsists[1][layout_choise])
+                sys.exit()
+        else:
+            pass
+
+        print("Layout already exsists:", check_layoutExsists[1][0])
         yes_no = input("\nEnter:\na) To activate layout\nm) To mirror all screens\nq) To quit\nChoise: ")
         if yes_no == "a":
-            activate_layout(check_layoutExsists[1])
+            activate_layout(check_layoutExsists[1][0])
         elif yes_no == "m":
             screens = get_screens()
             auto_mirror(screens)            
@@ -224,7 +240,8 @@ def automated():
     current_monitors = list_monitors()
     check_layoutExsists = find_layout(current_monitors)
     if check_layoutExsists[0] == True:
-        activate_layout(check_layoutExsists[1])
+        print(check_layoutExsists[1][0])
+        activate_layout(check_layoutExsists[1][0])
     else:
         # Attempt to mirror the displays
         screens = get_screens()
