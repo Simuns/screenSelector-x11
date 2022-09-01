@@ -43,3 +43,5 @@
 - [ ] Author a complete README including. sections(installation, requirements, how it works)
 - [ ] test app on multiple distros
 - [ ] make uninstallable
+
+## Author: Símun Højgaard Lutzen | simunhojgaard@gmail.com
